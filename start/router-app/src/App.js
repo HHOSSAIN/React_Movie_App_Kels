@@ -9,6 +9,7 @@ import NotFound from "./components/notFound";
 import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import CorptForm from "./components/CorptForm";
+import LoginForm from "./../../vidly/src/components/loginForm";
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
         <NavBar />
         <div className="content">
           <Switch>
+            <Route path="/login" component={LoginForm}></Route>
             <Route path="/form" render={() => <CorptForm></CorptForm>}></Route>
 
             <Route
