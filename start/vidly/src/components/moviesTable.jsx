@@ -1,11 +1,18 @@
 import React, { Component } from "react";
 import Table from "./common/table";
 import Like from "./common/like";
+import { Link } from 'react-router-dom';
 
 class MoviesTable extends Component {
   columns = [
-    { path: "title", label: "Title" },
-    { path: "genre.name", label: "Genre" },
+    { path: "title", 
+      label: "Title", 
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>) 
+    },
+    { path: "genre.name", label: "Genre" }, //it's called genre.name because every movie object has the "genre" attribute
+                                    //and its value is an object itself where a sub attribute of it is "name"...so that's
+                                  //what we use to complete the sorting of the movies.
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
     {

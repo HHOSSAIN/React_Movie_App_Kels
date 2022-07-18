@@ -3,9 +3,12 @@ import _ from "lodash";
 
 class TableBody extends Component {
   renderCell = (item, column) => {
-    if (column.content) return column.content(item);
+    if (column.content) return column.content(item); //if we are in the like or delete button part of the row, 
+                                          //we go through this "if" and render those images in the row.
 
-    return _.get(item, column.path);
+    return _.get(item, column.path);  //see this example: https://www.geeksforgeeks.org/lodash-_-get-method/
+                                  //basically movie obj er attribute path a dewa thake and based on it, we get the 
+                              //from the "item" object
   };
 
   createKey = (item, column) => {
