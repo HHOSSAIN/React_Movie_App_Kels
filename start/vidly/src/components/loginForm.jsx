@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Input from './common/input';
 
 class LoginForm extends Component {
     state = { 
@@ -11,7 +12,7 @@ class LoginForm extends Component {
     username = React.createRef();
 
     componentDidMount(){
-        this.username.current.focus();
+        //this.username.current.focus();
     }
 
     handleChange = (e) =>{
@@ -35,20 +36,14 @@ class LoginForm extends Component {
                 <h1>LoginForm</h1>
                 
                 <form onSubmit={this.handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
-                        <input
-                            value={this.state.account.username}
-                            onChange={this.handleChange}
-                            name="username"
-                            ref={this.username} 
-                            type="email" 
-                            className="form-control" 
-                            id="exampleInputEmail1" 
-                            aria-describedby="emailHelp">
-                        </input>
-                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-                    </div>
+                    <Input 
+                        name = "username"
+                        value={this.state.account.username}
+                        label= "username"
+                        onChange ={this.handleChange}
+                        //ref={this.username} 
+                    >
+                    </Input>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                         <input 
