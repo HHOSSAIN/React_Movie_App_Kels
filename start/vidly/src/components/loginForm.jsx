@@ -6,10 +6,27 @@ class LoginForm extends Component {
         account:{
             username: "",
             password: ""
+        },
+        errors: {
         }
      }
 
-    username = React.createRef();
+    //username = React.createRef();
+
+    validate = () =>{
+        const errors = {}; 
+        const {account} = this.state;
+
+        //updating the errors attribute state
+        if(account.username.trim() === ""){
+            errors.username = "username is required";
+        }
+        if(account.password.trim() === ""){
+            errors.password = "password is required";
+        }
+
+        return Object.keys(errors).length === 0 ? null : errors;
+    }
 
     componentDidMount(){
         //this.username.current.focus();
@@ -26,11 +43,20 @@ class LoginForm extends Component {
 
         //call the server, save the change and then redirect to a different page
         //username.current working here because of "ref"
-        const username = this.username.current.value;
+        //const username = this.username.current.value;
         console.log("Submitted");
+
+        const errors = this.validate(); //we defined this method above
+        console.log(errors);
+        this.setState({errors}); //this is giving error when null
+        if(errors){
+            return;
+        }
     }
 
     render() { 
+        const {account, errors} = this.state;
+
         return (
             <div>
                 <h1>LoginForm</h1>
@@ -39,26 +65,22 @@ class LoginForm extends Component {
                     <Input 
                         name = "username"
                         value={this.state.account.username}
-                        label= "username"
+                        label= "Username"
                         onChange ={this.handleChange}
                         //ref={this.username} 
+                        error = {this.state.errors.username}
                     >
                     </Input>
-                    <div className="mb-3">
-                        <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                        <input 
-                            value={this.state.account.password}
-                            onChange={this.handleChange}
-                            name="password"
-                            type="password" 
-                            className="form-control" 
-                            id="exampleInputPassword1">
-                        </input>
-                    </div>
-                    <div className="mb-3 form-check">
-                        <input type="checkbox" className="form-check-input" id="exampleCheck1"></input>
-                        <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                    </div>
+                    <Input 
+                        name = "password"
+                        value={this.state.account.password}
+                        label= "Password"
+                        onChange ={this.handleChange}
+                        //ref={this.username} 
+                        error = {this.state.errors.password}
+                    >
+                    </Input>
+                    
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
 
