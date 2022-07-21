@@ -48,7 +48,8 @@ class LoginForm extends Component {
 
         const errors = this.validate(); //we defined this method above
         console.log(errors);
-        this.setState({errors}); //this is giving error when null
+        //this.setState({errors}); //this is giving error when null
+        this.setState({errors: errors || {}}); //solution is this...value in an an attribute from "state" is not allowed to be null
         if(errors){
             return;
         }
