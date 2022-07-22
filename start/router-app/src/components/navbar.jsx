@@ -19,6 +19,9 @@ const NavBar = () => {
       <li>
         <Link to="/form">Form</Link>
       </li>
+      <li>
+        <Link to="/ipdb">IPDB</Link>
+      </li>
     </ul>
   );
 };
