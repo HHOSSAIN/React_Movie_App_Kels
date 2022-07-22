@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-const Card = ({name, path}) => {
+const Card = ({name, path, callList}) => {  
   return (
     <div>
         <div className="card" style={{width: "18rem", backgroundColor: "#8acbde"}}>
@@ -17,7 +17,8 @@ const Card = ({name, path}) => {
                     }}
                 >
                     <h5 className="card-title">{name}</h5>
-                    <Link to={"/ipdb/" + path} className="card-link">+</Link>
+                    
+                    <button onClick={ (e) => callList(e)}>Add</button>
                 </div>
             </div>
         </div>

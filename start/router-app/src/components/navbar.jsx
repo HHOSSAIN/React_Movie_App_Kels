@@ -22,6 +22,9 @@ const NavBar = () => {
       <li>
         <Link to="/ipdb">IPDB</Link>
       </li>
+      <li>
+        <Link to="/login">Login</Link>
+      </li>
     </ul>
   );
 };

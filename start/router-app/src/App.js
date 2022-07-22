@@ -11,6 +11,8 @@ import { Route, Switch } from "react-router-dom";
 import CorptForm from "./components/CorptForm";
 import LoginForm from "./components/loginForm";
 import Ipdb from "./components/Ipdb";
+import Templates from "./components/common/ipdb/Templates";
+import Config from "./components/common/ipdb/Config";
 
 class App extends Component {
   render() {
@@ -20,6 +22,9 @@ class App extends Component {
         <div className="content">
           <Switch>
             <Route path="/ipdb" component={Ipdb}></Route>
+            <Route path="/template" component={Templates}></Route>
+            <Route path="/config" component={Config}></Route>
+
             <Route path="/login" component={LoginForm}></Route>
             <Route path="/form" render={() => <CorptForm></CorptForm>}></Route>
 
