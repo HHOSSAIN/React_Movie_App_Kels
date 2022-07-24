@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Input from './common/input';
+import Joi from "joi-browser";
 
 class LoginForm extends Component {
     state = { 
@@ -11,21 +12,38 @@ class LoginForm extends Component {
         }
      }
 
+     schema = {
+        username: Joi.string().required().label("Username"), //to uppercase error message
+        password: Joi.string().required(),
+     }
+
     //username = React.createRef();
 
     validate = () =>{
+        const result = Joi.validate(this.state.account, this.schema, {abortEarly: false});
+        console.log("result=", result);
+
         const errors = {}; 
         const {account} = this.state;
 
-        //updating the errors attribute state
-        if(account.username.trim() === ""){
+        //with joi
+        if(!result.error){
+            return null;
+        }
+        for(let item of result.error.details){
+            errors[item.path[0]] = item.message;
+        }
+        return errors;
+
+        //updating the errors attribute state...without joi
+        /*if(account.username.trim() === ""){
             errors.username = "username is required";
         }
         if(account.password.trim() === ""){
             errors.password = "password is required";
         }
 
-        return Object.keys(errors).length === 0 ? null : errors;
+        return Object.keys(errors).length === 0 ? null : errors; */
     }
 
     componentDidMount(){
@@ -44,7 +62,7 @@ class LoginForm extends Component {
         else{
             delete errors[e.currentTarget.name];
         }
-        //this.setState({errors});
+        //this.setState({errors}); //niche eta implement korsi
 
         const account = {...this.state.account};
         account[e.currentTarget.name] = e.currentTarget.value;
@@ -52,7 +70,12 @@ class LoginForm extends Component {
     }
 
     validateProperty = (input) =>{
-        if(input.name == "username"){
+        const obj = { [input.name] : input.value};
+        const schema = { [input.name] : this.schema[input.name]};
+        const {error} = Joi.validate(obj, schema);
+        return error ? error.details[0].message : null;
+        //witjout joi
+        /*if(input.name == "username"){
             if(input.value.trim() === ""){
                 return "Username is required";
             }
@@ -61,7 +84,7 @@ class LoginForm extends Component {
             if(input.value.trim() === ""){
                 return "Password is required";
             }
-        }
+        } */
     }
 
     handleSubmit = (e) =>{
