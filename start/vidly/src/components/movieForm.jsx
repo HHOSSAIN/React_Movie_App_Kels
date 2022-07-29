@@ -1,7 +1,9 @@
 import React from 'react';
-import MovieForm from './../../../../finish/vidly/src/components/movieForm';
+//import MovieForm from './../../../../finish/vidly/src/components/movieForm';
 import Joi from 'joi-browser';
 import Form from './common/form';
+import { getMovie, saveMovie } from '../services/fakeMovieService';
+import {getGenres} from '../services/fakeGenreService';
 
 //const movieForm = ({match, history}) => {
 //const movieForm = (props) => {
@@ -45,11 +47,12 @@ class MovieForm extends Form{
     this.setState({ genres });
 
     const movieId = this.props.match.params.id; //the id comes from the movie clicked
-                                        //in movies.jsx
+                                        //in movies.jsx..tableBody.jsx
     if (movieId === "new") return;
 
     const movie = getMovie(movieId);
     if (!movie) return this.props.history.replace("/not-found");
+    //if (!movie) return this.props.history.replace("/not-found");
 
     this.setState({ data: this.mapToViewModel(movie) });
   }
@@ -60,7 +63,7 @@ class MovieForm extends Form{
     return(
     <div>
         <h1>movieForm {this.props.match.params.id}</h1>
-        <button className='btn btn-primary' onClick={() => history.push("/movies")}>
+        <button className='btn btn-primary' onClick={() => this.props.history.push("/movies")}>
           Save
         </button>
     </div>
@@ -68,4 +71,4 @@ class MovieForm extends Form{
   }
 }
 
-export default movieForm
+export default MovieForm;
