@@ -1,12 +1,18 @@
 import React, { Component } from "react";
+import { toast } from 'react-toastify';
 import MoviesTable from "./moviesTable";
 import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+//import { getMovies } from "../services/fakeMovieService";
+import { getMovies, deleteMovie } from "../services/movieService";
+
+//import { getGenres } from "../services/fakeGenreService";
+import { getGenres } from "../services/genreService";
+
 import { paginate } from "../utils/paginate";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+//import { toast } from 'react-toastify';
 
 class Movies extends Component {
   state = {
@@ -17,16 +23,41 @@ class Movies extends Component {
     sortColumn: { path: "title", order: "asc" }
   };
 
-  componentDidMount() {
-    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
+  async componentDidMount() {
+  //componentDidMount() {
+    //const genres = [{ _id: "", name: "All Genres" }, ...getGenres()]; //can't directly call gtGenres() like this now as we need to await now
+    const {data} = await getGenres(); //we did destructuring the same way we did in the "fake backend p136" notebook page as promise
+                                    //has an attribute "data" which stores the json data, prolly as a list of js objects
+    const genres = [{ _id: "", name: "All Genres" }, ...data]; 
 
-    this.setState({ movies: getMovies(), genres });
+    //this.setState({ movies: getMovies(), genres });
+    const {data: movies} = await getMovies();
+    this.setState({movies, genres});
   }
 
-  handleDelete = movie => {
+  /*handleDelete = movie => {
     const movies = this.state.movies.filter(m => m._id !== movie._id);
     this.setState({ movies });
-  };
+  }; */
+
+  //new delete using api delete request
+  handleDelete = async movie => {
+    const originalMovies = this.state.movies;
+    //optimistic updating of ui assuming there is a movie to delete
+    const movies = originalMovies.filter(m => m._id !== movie._id);
+    this.setState({movies})
+
+    try {
+      await deleteMovie(movie._id);
+    } 
+    catch (error) {
+      if(error.response && error.response.status === 404){
+        toast.error("this movie has already been deleted");
+      }
+      this.setState({movies: originalMovies});
+    }
+
+  }
 
   handleLike = movie => {
     const movies = [...this.state.movies];
