@@ -2,8 +2,11 @@ import React from 'react';
 //import MovieForm from './../../../../finish/vidly/src/components/movieForm';
 import Joi from 'joi-browser';
 import Form from './common/form';
+
+
 import { getMovie, saveMovie } from '../services/fakeMovieService';
-import {getGenres} from '../services/fakeGenreService';
+//import {getGenres} from '../services/fakeGenreService';
+import {getGenres} from '../services/genreService';
 
 //const movieForm = ({match, history}) => {
 //const movieForm = (props) => {
@@ -42,8 +45,10 @@ class MovieForm extends Form{
   };
 
 
-  componentDidMount() {
-    const genres = getGenres();
+  //componentDidMount() {
+  async componentDidMount() {
+    //const genres = getGenres();
+    const {data: genres} = await getGenres();
     this.setState({ genres });
 
     const movieId = this.props.match.params.id; //the id comes from the movie clicked
@@ -66,6 +71,15 @@ class MovieForm extends Form{
         <button className='btn btn-primary' onClick={() => this.props.history.push("/movies")}>
           Save
         </button>
+
+        <h1>Movie Form</h1>
+        <form onSubmit={this.handleSubmit}>
+          {this.renderInput("title", "Title")}
+          {this.renderSelect("genreId", "Genre", this.state.genres)}
+          {this.renderInput("numberInStock", "Number in Stock", "number")}
+          {this.renderInput("dailyRentalRate", "Rate")}
+          {this.renderButton("Save")}
+        </form>
     </div>
     )
   }
