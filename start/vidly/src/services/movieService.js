@@ -1,6 +1,8 @@
 import http from "./httpService"; //allows us to use the axios get/post/put/del reqs as those were exported from that file
+import { apiUrl } from "../config.json";
 
-const apiEndpoint = "http://localhost:3900/api/movies";
+//const apiEndpoint = "http://localhost:3900/api/movies";
+const apiEndpoint = apiUrl + "/movies";
 
 export function getMovies() {
   //making api endpoint call
